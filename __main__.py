@@ -12,7 +12,7 @@ favicon = "assets/space_invader_logo.png"
 
 screen = pygame.display.set_mode((500,500))
 #fullscreen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
-pygame.display.set_caption(favicon)
+pygame.display.set_caption("Space Invader by timogo")
 img = pygame.image.load(favicon).convert()
 print(img)
 i = 0
@@ -23,6 +23,7 @@ while game_is_running:
       i += 1
       for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
+                  enemy.Shoot()
                   # player.OnMoveEvent(event)
                   player.OnCollisionEvent(event)
             if event.type == pygame.QUIT:

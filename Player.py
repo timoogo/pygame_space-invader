@@ -5,19 +5,22 @@ color = (0, 0, 0)
 
 class Player:
     def __init__(self, screen):
-        self.speed = 5
+        self.speed = 0.75
         self.pos = [250, 400]
+        self.projectile_instance = Projectile(self.pos, screen, self)
         self.screen_x = screen.get_width()
         self.alive = True
         self.debug = True
         self.cooldown = 0.25
         self.screen = screen
         self.radius = 20
+        self.bulletPos = [250, 395]
+        self.bulletColor = (255, 0, 0)
 
 
     def Draw(self):
         pygame.draw.circle(self.screen, (0, 180, 0), self.pos, self.radius)
-        if self.alive == False:
+        if not self.alive:
             pygame.draw.rect(self.screen, color, (0, 300, self.screen_x, 600))
         else:
             self.Update()
@@ -25,9 +28,9 @@ class Player:
         self.OnMoveEvent()
     def OnMoveEvent(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_q]:
+        if keys[pygame.K_q] or keys[pygame.K_LEFT]:
             self.Move(-1)
-        if keys[pygame.K_d]:
+        if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             self.Move(1)
         if keys[pygame.K_SPACE]:
             self.Shoot()
@@ -49,7 +52,9 @@ class Player:
         print(self.speed)
 
     def Shoot(self):
-        print("shoot")
+        self.projectile_instance.owner = "Player"
+        self.projectile_instance.WhoShot()
+        self.projectile_instance.Draw()
 
     def Die(self):
         if self.alive and self.debug:
