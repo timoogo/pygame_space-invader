@@ -1,7 +1,6 @@
 import pygame
 from Player import Player 
 from Enemy import Enemy
-from Projectile import Projectile
 from time import sleep
 module_charge = pygame.init()
 print (module_charge)
@@ -19,14 +18,13 @@ print(img)
 i = 0
 player = Player(screen)
 enemy = Enemy(screen)
-projectile = Projectile(screen)
-
 while game_is_running:
       screen.fill((0,0,0))
       i += 1
       for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                   player.OnMoveEvent(event)
+                  player.OnCollisionEvent(event)
             if event.type == pygame.QUIT:
                 game_is_running = False
 
