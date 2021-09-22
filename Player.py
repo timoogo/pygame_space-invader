@@ -5,7 +5,7 @@ color = (0, 0, 0)
 
 class Player:
     def __init__(self, screen):
-        self.speed = 50
+        self.speed = 5
         self.pos = [250, 400]
         self.screen_x = screen.get_width()
         self.alive = True
@@ -19,16 +19,20 @@ class Player:
         pygame.draw.circle(self.screen, (0, 180, 0), self.pos, self.radius)
         if self.alive == False:
             pygame.draw.rect(self.screen, color, (0, 300, self.screen_x, 600))
-
-    def OnMoveEvent(self, event):
-        if event.key == pygame.K_q:
+        else:
+            self.Update()
+    def Update(self):
+        self.OnMoveEvent()
+    def OnMoveEvent(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_q]:
             self.Move(-1)
-            print(event)
-        if event.key == pygame.K_d:
+        if keys[pygame.K_d]:
             self.Move(1)
-            print(event)
-        if event.key == pygame.K_s:
+        if keys[pygame.K_SPACE]:
             self.Shoot()
+            print(sleep(2))
+
 
     def OnCollisionEvent(self, event):
         if event.key == pygame.K_k:

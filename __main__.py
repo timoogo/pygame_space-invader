@@ -23,7 +23,7 @@ while game_is_running:
       i += 1
       for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-                  player.OnMoveEvent(event)
+                  # player.OnMoveEvent(event)
                   player.OnCollisionEvent(event)
             if event.type == pygame.QUIT:
                 game_is_running = False
