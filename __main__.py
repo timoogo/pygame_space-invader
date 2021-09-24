@@ -1,6 +1,5 @@
 from Player import *
 from Enemy import *
-from Projectile import *
 import pygame
 
 module_charge = pygame.init()
@@ -27,7 +26,7 @@ while game_is_running:
     i += 1
     keys = pygame.key.get_pressed()
     for event in pygame.event.get():
-        enemy.Shoot()
+       # enemy.Shoot()
         if keys[pygame.K_SPACE]:
             player.Shoot()
         if event.type == pygame.QUIT:
