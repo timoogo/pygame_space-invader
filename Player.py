@@ -19,9 +19,12 @@ class Player:
         self.debug_death_color = (0, 0, 0)
         self.projectiles: list[Projectile] = []
         self.tab_enemies = tab_enemies
+        self.last_fire = 0
+
 
     def Draw(self):
         pygame.draw.circle(self.screen, (0, 180, 0), self.position, self.radius)
+        pygame.draw.rect(self.screen, (255, 0, 0), pygame.Rect(*self.position, self.radius*2, self.radius*2), 1)
         if not self.alive:
             pygame.draw.rect(self.screen, self.debug_death_color, (0, 300, self.screen_x, 600))
         self.Update()
@@ -31,13 +34,11 @@ class Player:
     def Update(self):
         self.OnMoveEvent()
         self.OnCollisionEvent()
-
+        self.OnShootEvent()
         for p in self.projectiles:
             p.Move()
             if p.position[1] > 0:
-                if int(len(self.projectiles) >=2):
-                    del (p)
-
+                del p
 
     def OnMoveEvent(self):
         keys = pygame.key.get_pressed()
@@ -55,9 +56,9 @@ class Player:
             print(self.alive)
             self.alive = True
 
-    def Move(self, dir):
+    def Move(self, vec_dir):
         if self.alive:
-            self.position[0] += dir * self.speed
+            self.position[0] += vec_dir * self.speed
             if self.position[0] <= 0 + self.radius:
                 self.position[0] = self.radius
             if self.position[0] >= self.screen_x - self.radius:
@@ -69,5 +70,11 @@ class Player:
             self.alive = False
             print(self.alive)
 
-    def Shoot(self):
-        self.projectiles.append(Projectile(self.position, self.screen, self))
+    def OnShootEvent(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE]:
+            now = pygame.time.get_ticks()
+            if now - self.last_fire >= 200:
+                self.last_fire = now
+                start_projectile_pos= [*self.position] # unpacking
+                self.projectiles.append(Projectile(start_projectile_pos, self.screen, owner="player"))

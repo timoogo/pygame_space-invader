@@ -7,9 +7,7 @@ class Projectile:
         self.width = 2
         self.speed = 5
         self.vel = 1.15
-        self.position = []
-        self.position.append(pos[0])
-        self.position.append(pos[1])
+        self.position = pos
         self.owner = owner
         self.screen = screen
         self.bulletColor = (200, 100, 200)
@@ -20,7 +18,7 @@ class Projectile:
         pygame.draw.circle(self.screen, self.bulletColor, self.position, 10)
 
     def Move(self):
-        if self.owner == "Player":
-            self.position[1] += self.speed
-        else:
+        if self.owner == "player":
             self.position[1] -= self.speed
+        else:
+            self.position[1]  += self.speed

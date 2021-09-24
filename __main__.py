@@ -24,11 +24,10 @@ tab_enemies.append(Enemy(screen, player, tab_enemies))
 while game_is_running:
     screen.fill((0, 0, 0))
     i += 1
-    keys = pygame.key.get_pressed()
+
     for event in pygame.event.get():
        # enemy.Shoot()
-        if keys[pygame.K_SPACE]:
-            player.Shoot()
+        player.Update()
         if event.type == pygame.QUIT:
             game_is_running = False
 
