@@ -1,25 +1,27 @@
 import pygame
 
-projectiles = []
+
 class Projectile:
     def __init__(self, pos, screen,owner):
         self.color = (255, 255, 255)
         self.width = 2
-        self.speed = 15
-        self.position = pos
-        self.screen = screen
+        self.speed = 1
+        self.vel = 1.15
+        self.position = []
+        self.position.append(pos[0])
+        self.position.append(pos[1])
+
         self.owner = owner
-        self.bulletForm = (10, 10, 5,10)
+        self.screen = screen
+        self.bulletForm = (10, 10, 50,100)
         self.hasShot = False
+        self.projectiles = []
 
     def Draw(self):
-        if self.hasShot:
-                pygame.draw.rect(self.screen, self.color, self.bulletForm)
-                print("shoot")
+        pygame.draw.circle(self.screen, (0, 180, 0), self.position, 10)
 
-    def WhoShot(self):
+    def Move(self):
         if self.owner == "Player":
-            print("from Player")
-            self.hasShot = True
-        if self.owner == "Enemy":
-            print("from enemy")
+            self.position[1] -= self.speed
+        else:
+            self.position[1] += self.speed
