@@ -20,7 +20,6 @@ class Player:
 
         self.debug_death_color = (0, 0, 0)
         self.collision_offset = [22, 22]
-        self.debug_collision_area = [self.position[0] - self.collision_offset[0], self.position[1] - self.collision_offset[1]]
         self.debug_collision_offset = 45
         self.projectiles: list[Projectile] = []
         self.tab_enemies = tab_enemies
@@ -29,22 +28,29 @@ class Player:
 
     def Draw(self):
         pygame.draw.circle(self.screen, self.player_color, self.position, self.radius)
-        pygame.draw.rect(self.screen,self.debug_collision_color, pygame.Rect(*self.debug_collision_area, self.debug_collision_offset, self.debug_collision_offset), 1)
         if not self.alive:
             pygame.draw.rect(self.screen, self.debug_death_color, (0, 300, self.screen_x, 600))
+
         self.Update()
         for s in self.projectiles:
             s.Draw()
 
+
     def Update(self):
         self.OnMoveEvent()
+        self.CollisionArea()
         self.OnCollisionEvent()
         self.OnShootEvent()
         for p in self.projectiles:
             p.Move()
             if p.position[1] > 0:
                 del p
-
+    def CollisionArea(self):
+        debug_collision_area = [self.position[0] - self.collision_offset[0],
+                                self.position[1] - self.collision_offset[1]]
+        pygame.draw.rect(self.screen, self.debug_collision_color,
+                         pygame.Rect(*debug_collision_area, self.debug_collision_offset,
+                                     self.debug_collision_offset), 1)
     def OnMoveEvent(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_q] or keys[pygame.K_LEFT]:
@@ -63,12 +69,12 @@ class Player:
 
     def Move(self, vec_dir):
         if self.alive:
+
             self.position[0] += vec_dir * self.speed
             if self.position[0] <= 0 + self.radius:
                 self.position[0] = self.radius
             if self.position[0] >= self.screen_x - self.radius:
                 self.position[0] = self.screen_x - self.radius
-            print(self.speed)
 
     def Die(self):
         if self.alive and self.debug:
