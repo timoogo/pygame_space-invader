@@ -4,7 +4,7 @@ import pygame
 class Projectile:
     def __init__(self, pos, screen,owner):
         self.color = (255, 255, 255)
-        self.width = 2
+        self.width = 5
         self.speed = 5
         self.vel = 1.15
         self.position = pos
@@ -15,7 +15,7 @@ class Projectile:
         self.projectiles = []
 
     def Draw(self):
-        pygame.draw.circle(self.screen, self.bulletColor, self.position, 10)
+        pygame.draw.circle(self.screen, self.bulletColor, self.position, self.width, 2)
 
     def Move(self):
         if self.owner == "player":

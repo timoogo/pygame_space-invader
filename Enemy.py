@@ -30,9 +30,6 @@ class Enemy:
         print(self.speed)
 
     def Shoot(self):
-        """
-        Not working for the moment
-        """
         now = pygame.time.get_ticks()
         print(now - self.last)
         if now - self.last >= self.cd:

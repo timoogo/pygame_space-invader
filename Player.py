@@ -8,23 +8,28 @@ class Player:
         self.screen_x = screen.get_width()
         self.screen_y = screen.get_height()
         self.offset_y = 150
+
         self.screen = screen
-        self.position = [self.screen_x / 2, self.screen_y - self.offset_y]
+        self.position = [int(self.screen_x / 2), int(self.screen_y - self.offset_y)]
         self.alive = True
         self.debug = False
-        self.cooldown = 0.25
+        self.cooldown_between_shots = 200
         self.radius = 20
-        self.bulletPos = self.position
-        self.bulletColor = (255, 255, 255)
+        self.player_color = (0, 255, 0)
+        self.debug_collision_color = (255, 0, 0)
+
         self.debug_death_color = (0, 0, 0)
+        self.collision_offset = [22, 22]
+        self.debug_collision_area = [self.position[0] - self.collision_offset[0], self.position[1] - self.collision_offset[1]]
+        self.debug_collision_offset = 45
         self.projectiles: list[Projectile] = []
         self.tab_enemies = tab_enemies
         self.last_fire = 0
 
 
     def Draw(self):
-        pygame.draw.circle(self.screen, (0, 180, 0), self.position, self.radius)
-        pygame.draw.rect(self.screen, (255, 0, 0), pygame.Rect(*self.position, self.radius*2, self.radius*2), 1)
+        pygame.draw.circle(self.screen, self.player_color, self.position, self.radius)
+        pygame.draw.rect(self.screen,self.debug_collision_color, pygame.Rect(*self.debug_collision_area, self.debug_collision_offset, self.debug_collision_offset), 1)
         if not self.alive:
             pygame.draw.rect(self.screen, self.debug_death_color, (0, 300, self.screen_x, 600))
         self.Update()
@@ -74,7 +79,7 @@ class Player:
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE]:
             now = pygame.time.get_ticks()
-            if now - self.last_fire >= 200:
+            if now - self.last_fire >= self.cooldown_between_shots:
                 self.last_fire = now
                 start_projectile_pos= [*self.position] # unpacking
                 self.projectiles.append(Projectile(start_projectile_pos, self.screen, owner="player"))
