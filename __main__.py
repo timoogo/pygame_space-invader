@@ -21,6 +21,9 @@ tab_enemies = []
 player = Player(screen, tab_enemies)
 enemy = Enemy(screen,player,  tab_enemies)
 tab_enemies.append(Enemy(screen, player, tab_enemies))
+
+
+
 while game_is_running:
     screen.fill((0, 0, 0))
     i += 1
@@ -28,9 +31,12 @@ while game_is_running:
     for event in pygame.event.get():
        # enemy.Shoot()
         player.Update()
+        enemy.Update()
+
         if event.type == pygame.QUIT:
             game_is_running = False
-
-    player.Draw()
-    enemy.Draw()
+    for to_draw in [player, enemy]:
+        to_draw.Draw()
+    # player.Draw()
+    # enemy.Draw()
     pygame.display.flip()

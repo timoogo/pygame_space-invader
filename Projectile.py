@@ -20,5 +20,5 @@ class Projectile:
     def Move(self):
         if self.owner == "player":
             self.position[1] -= self.speed
-        else:
-            self.position[1]  += self.speed
+        elif self.owner == "enemy":
+            self.position[1] += self.speed
