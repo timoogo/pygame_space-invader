@@ -28,7 +28,7 @@ colD = ""
 # tab_enemies.append(Enemy(screen, player, tab_enemies))
 last_check = 0
 
-def Lose(screen):
+def LoseScreen(screen):
     font = pygame.font.Font(None, 36)
 
     text = font.render("You lost, maybe next time ", True, (255, 255, 255))
@@ -62,7 +62,8 @@ while game_is_running:
 
 
     if not player.alive:
-        Lose(screen)
+        LoseScreen(screen)
+
 
     elif not enemy.alive:
         WinScreen(screen)
